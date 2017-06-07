@@ -15,5 +15,11 @@ test:
   database: app_test
 
 production:
-  <<: *default
+  # <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: <%= ENV['atpbammkeszkuj'] %>
+  password: <%= ENV['212c964ba6cf23042e786c914a64799f78f0da21ca975fab5b775d68f6644634'] %>
+  host:     <%= ENV['ec2-54-247-189-141.eu-west-1.compute.amazonaws.com'] %>
   database: app_production

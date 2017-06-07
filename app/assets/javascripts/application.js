@@ -95,7 +95,7 @@ $(document).ready(function() {
             title: 'Snazzy!'
         });
         */
-// javascript
+
         var place = {lat: 41.422340, lng: 2.179425};
 
         var map = new google.maps.Map(document.getElementById("map"), {
