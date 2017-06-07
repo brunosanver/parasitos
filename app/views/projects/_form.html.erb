@@ -1,0 +1,11 @@
+<%= simple_form_for @project, :html => { :multipart => true } do |f| %>
+    <%= select_tag(:category_id, options_for_select(@categories), :prompt => "Selecciona categoria") %>    &nbsp;
+    <%= select_tag(:fabrication_id, options_for_select(@fabrications), :prompt => "Selecciona tipus de fabricació") %>
+    <br/><br/>
+    <%= f.file_field :avatar %>
+    <br/><br/>
+    <%= f.input :title, label: "Títol" %>
+    <%= f.input :direction, placeholder: 'Nom carrer,  Núm. carrer,  Codi postal,  Ciutat,  Pais', label: "Direcció" %>
+    <%= f.input :description, label: "Descripció" %>
+    <%= f.button :submit %>
+<% end %>

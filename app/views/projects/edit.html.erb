@@ -1,0 +1,13 @@
+<h1>Editar Projecte</h1>
+
+<%= simple_form_for @project, :html => { :multipart => true } do |f| %>
+    <%= f.select :category_id, @categories %>    &nbsp;
+    <%= f.select :fabrication_id, @fabrications %>
+    <br/><br/>
+    <%= f.file_field :avatar %>
+    <br/><br/>
+    <%= f.input :title, label: "Títol" %>
+    <%= f.input :direction, label: "Direcció" %>
+    <%= f.input :description, label: "Descripció" %>
+    <%= f.button :submit %>
+<% end %>

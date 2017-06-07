@@ -1,0 +1,129 @@
+<div class="row">
+  <div class="col-lg-7">
+    <div class="form-group form-inline">
+
+      <label for="catg">Selecciona una categoria:&emsp;</label>
+      <div class="dropdown dcat" id="catg">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <% Category.all.each do |category| %>
+              <li class="<%= 'active' if params[:category] == category.name %>">
+                <%= link_to category.name, projects_path(category: category.name), class: "link" %>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <label id="fabr-labl" for="fabr">Selecciona tipus de fabricació:&emsp;</label>
+      <div class="dropdown dcat" id="fabr">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Fabricació <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <% Fabrication.all.each do |fabrication| %>
+              <li class="<%= 'active' if params[:fabrication] == fabrication.name %>">
+                <%= link_to fabrication.name, projects_path(fabrication: fabrication.name), class: "link" %>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
+  </div><!-- /.col-lg-7 -->
+  <div class="col-lg-3" style="margin-top: -4px;">
+    <%= form_tag(projects_path, :method => "get", id: "search-form") do %>
+        <%= text_field_tag :search, params[:search], placeholder: "Buscar projecte", class: 'form-control' %>
+  </div>
+  <div class="col-lg-2" style="margin-top: -4px;">
+        <%= submit_tag "Search", :name => nil, class: 'btn btn-default' %>
+    <% end %>
+  </div><!-- /.col-lg-2 -->
+</div><!-- /.row -->
+
+<nav class="navbar navbar-default search-nav">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-7">
+        <div class="form-group form-inline">
+
+          <label class="sec-fabr-labl" for="catg">Selecciona una categoria:&emsp;</label>
+          <div class="dropdown dcat sec-dcat" id="catg">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Categories <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <% Category.all.each do |category| %>
+                  <li class="<%= 'active' if params[:category] == category.name %>">
+                    <%= link_to category.name, projects_path(category: category.name), class: "link" %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <label class="sec-fabr-labl" id="fabr-labl" for="fabr">Selecciona tipus de fabricació:&emsp;</label>
+          <div class="dropdown dcat sec-dcat" id="fabr">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Fabricació <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <% Fabrication.all.each do |fabrication| %>
+                  <li class="<%= 'active' if params[:fabrication] == fabrication.name %>">
+                    <%= link_to fabrication.name, projects_path(fabrication: fabrication.name), class: "link" %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+
+        </div>
+      </div><!-- /.col-lg-7 -->
+      <div class="col-lg-4" style="margin-top: 12px;">
+        <%= form_tag(projects_path, :method => "get", id: "search-form") do %>
+            <%= text_field_tag :search, params[:search], placeholder: "Buscar projecte", class: 'form-control' %>
+            </div>
+            <div class="col-lg-1" style="margin-top: 12px;">
+              <%= submit_tag "Search", :name => nil, class: 'btn btn-default' %>
+        <% end %>
+        </div><!-- /.col-lg-2 -->
+        </div><!-- /.row -->
+  </div>
+</nav>
+
+<% if @projects.count == 0 %>
+
+    <h1>No hi ha cap projecte registrat encara...</h1>
+
+<% else %>
+
+    <div class="row">
+        <h1 class="current-category" style="margin: 20px;"><%= params[:category] %></h1>
+
+        <% @projects.each do |project| %>
+
+            <div class="col-md-4">
+              <div class="thumbnail" style="min-height: 551px;">
+                <img style="max-height: 295px;" width="468" src="<%=
+                  if project.avatar?
+                    project.avatar_url.to_s
+                  else
+                    'http://www.cadagency.co.uk/wp-content/uploads/2016/02/fig-2-2.jpg'
+                  end %>" alt="...">
+                <div class="caption">
+                  <h3><%= link_to project.title, project_path(project), class: "projlist" %></h3>
+                  <p class="giveMeEllipsis"><%= project.description %></p>
+                  <p><a href="#"><%= link_to "Detalls", project_path(project), class: "projlist" %></a>
+
+                    <% if user_signed_in? %>
+
+                        <% if project.user_id == current_user.id %>
+
+                          | <a href="#"><%= link_to "Editar", edit_project_path(project) %></a>
+                          | <a href="#"><%= link_to "Eliminar", project_path(project), method: :delete, data: { confirm: "Estàs segur?" } %></a>
+
+                        <% end %>
+
+                    <% end %>
+
+                  </p>
+                </div>
+              </div>
+            </div>
+
+        <% end %>
+
+    </div>
+
+<% end %>
